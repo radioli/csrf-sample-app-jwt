@@ -1,17 +1,21 @@
 const express = require("express");
-const session = require('express-session');
+var session = require('express-session-jwt')
 const bodyParser = require('body-parser');
+const fs = require("fs")
 
 const port = 3000;
 const app = express();
-
 let reviews = [];
 
 app.set('views', './templates');
 app.set('view engine', 'ejs');
 
+var privateKEY  = fs.readFileSync('./private.ec.key', 'utf8');
+var publicKEY  = fs.readFileSync('./public.pem', 'utf8');
+
 app.use(express.static('public'));
 app.use(session({
+  keys: { public: publicKEY, private: privateKEY },
   secret: 'my-secret',
   resave: true,
   saveUninitialized: true,
