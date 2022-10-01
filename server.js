@@ -1,54 +1,73 @@
-const express = require("express");
-var session = require('express-session-jwt')
-const bodyParser = require('body-parser');
 const fs = require("fs")
 
-const port = 3000;
+const express = require("express");
+const bodyParser = require("body-parser");
+const cookieParser = require('cookie-parser')
+const jwt = require("jsonwebtoken");
+
 const app = express();
-let reviews = [];
 
 app.set('views', './templates');
 app.set('view engine', 'ejs');
+app.use(express.static('public'));
+
+app.use(bodyParser.urlencoded({extended:true}))
+app.use(bodyParser.json())
+app.use(cookieParser())
+
+const port = 9000;
+let reviews = [];
+
 
 var privateKEY  = fs.readFileSync('./private.ec.key', 'utf8');
 var publicKEY  = fs.readFileSync('./public.pem', 'utf8');
+//remove session
+//dac cookie dopiero jak kliknac w valid session
 
-app.use(express.static('public'));
-app.use(session({
-  keys: { public: publicKEY, private: privateKEY },
-  secret: 'my-secret',
-  resave: true,
-  saveUninitialized: true,
-  cookie: {
-    httpOnly: true
-  }
-}));
-app.use(bodyParser.urlencoded({ extended: true }));
 
 app.get('/', function (req, res) {
 	res.render('index', {
-    isValidSession: req.session.isValid,
-    username: req.session.username,
     reviews
   });
 });
-
-app.post('/reviews', function (req, res) {
-  if (req.session.isValid && req.body.newReview) reviews.push(req.body.newReview);
-
+//auth token jwt jesli git to wstaw recke
+app.post('/reviews', checkToken, function (req, res) {
+  //if auth good push review
+  
+  reviews.push(req.body.newReview);
+  //decode wez username
 	res.render('index', {
-    isValidSession: req.session.isValid,
-    username: req.session.username,
+    //isValidSession: req.session.isValid,
+
+    //username z tokena
+    username: 'Alice',
     reviews
   });
 });
-
+//tutaj zwroc cookie z jwt
 app.get('/session/new', function (req, res) {
-  req.session.isValid = true;
-  req.session.username = 'Alice';
-  req.session.email = 'alice@acme.com';
+  const token = jwt.sign({user:'Alice'},'secret_key')
+  //save token in cookie
+  res.cookie('authcookie',token,{maxAge:900000,httpOnly:true}) 
   res.redirect('/');
 });
+
+function checkToken(req, res, next){
+  //get authcookie from request
+  const authcookie = req.cookies.authcookie
+  
+  //verify token which is in cookie value
+  jwt.verify(authcookie,"secret_key",(err,data)=>{
+   if(err){
+     res.sendStatus(403)
+   } 
+   else if(data.user){
+    req.user = data.user
+    next()
+  }
+  })
+}
+
 
 app.get('/user', function (req, res) {
   if (req.session.isValid) {
@@ -70,5 +89,6 @@ app.post('/user', function (req, res) {
     res.redirect('/');
   }
 });
+
 
 app.listen(port, () => console.log(`The server is listening at http://localhost:${port}`));

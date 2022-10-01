@@ -36,8 +36,6 @@
         font-style: italic;
       }
     </style>
-
-  <script src="js/search.js"></script>
   </head>
   <body>
     <section>
@@ -47,11 +45,11 @@
         <input id="keyword" type="text" class="thin" placeholder="Search a movie"><button type="submit" class="thin">Go</button></form>
       <hr class="thin">
 
-      <% if (isValidSession) { %>
+
         <div style="text-align: right">
           <a href="/user">Your profile</a>        
         </div>
-      <% } %>
+      
     </section>
 
     <section id="search-result">
@@ -78,9 +76,7 @@
       <form method="post" action="reviews">
         <fieldset>
           <textarea name="newReview" cols="80" rows="5" placeholder="Add your review"></textarea>
-          <% if (!isValidSession) { %>
-            <div>You need a <a href="session/new"">valid session</a> to submit a review.</div>
-          <% } %>
+            <div>You need a <a href="session/new">valid session</a> to submit a review.</div>
         </fieldset>
         <fieldset>
           <button type="submit">Submit</button>  
