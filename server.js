@@ -23,7 +23,7 @@ var privateKEY  = fs.readFileSync('./private.ec.key', 'utf8');
 var publicKEY  = fs.readFileSync('./public.pem', 'utf8');
 //remove session
 //dac cookie dopiero jak kliknac w valid session
-
+//dodac falge z sesja okok
 
 app.get('/', function (req, res) {
 	res.render('index', {

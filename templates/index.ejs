@@ -86,7 +86,7 @@
       <h2>Comments</h2>
       <dl>
         <% reviews.forEach(review => {%>
-          <dt><%= username %></dt><dd><%= review %></dd>
+          <dt><%= username %></dt><dd><%-review %></dd>
         <% }); %>
       </dl>
     </section>
