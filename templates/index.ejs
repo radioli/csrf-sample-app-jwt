@@ -36,6 +36,8 @@
         font-style: italic;
       }
     </style>
+    <script src="js/search.js"></script>
+    <script src="js/auth.js"></script>
   </head>
   <body>
     <section>
@@ -51,7 +53,6 @@
         </div>
       
     </section>
-
     <section id="search-result">
       You searched for <span id="search-term"></span>
       <p>Waiting for server's response...</p>
@@ -71,12 +72,12 @@
         <button type="submit">Play</button>
       </div>
     </section>
-
+      <button type="button" class="thin" onclick="return auth()">Token</button>
     <section id="comments">
       <form method="post" action="reviews">
         <fieldset>
           <textarea name="newReview" cols="80" rows="5" placeholder="Add your review"></textarea>
-            <div>You need a <a href="session/new">valid session</a> to submit a review.</div>
+            <div>You need a <a href="session/jwt/cookie">valid session</a> to submit a review.</div>
         </fieldset>
         <fieldset>
           <button type="submit">Submit</button>  
@@ -92,3 +93,4 @@
     </section>
   </body>
 </html>
+<!--to do weryfikacja po tokenie w cookies oraz localsotrage-->

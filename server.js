@@ -45,11 +45,16 @@ app.post('/reviews', checkToken, function (req, res) {
   });
 });
 //tutaj zwroc cookie z jwt
-app.get('/session/new', function (req, res) {
+app.get('/session/jwt/cookie', function (req, res) {
   const token = jwt.sign({user:'Alice'},'secret_key')
   //save token in cookie
-  res.cookie('authcookie',token,{maxAge:900000,httpOnly:true}) 
+  res.cookie('authcookie',token,{maxAge:900000,httpOnly:true})
   res.redirect('/');
+});
+app.get('/session/jwt/localStorage', function (req, res) {
+  const token = jwt.sign({user:'Alice'},'secret_key')
+  //save token in cookie
+  res.json({'token': token}) 
 });
 
 function checkToken(req, res, next){

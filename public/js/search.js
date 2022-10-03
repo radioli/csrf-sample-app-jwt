@@ -10,9 +10,7 @@ function search() {
   comments.style.visibility = "hidden";
 
   searchResult.style.display = "block";
-
   searchTerm.innerText = keyword.value;
-
   //fetching results related to the keyword value from the server
 
   return false;
