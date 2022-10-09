@@ -69,15 +69,17 @@
         <br/>
         <b>Plot:</b>
         <p>During the Civil War, two men forming an uneasy alliance as bounty hunting scammers have to fight against a third in a race to find a treasure in gold buried in a remote cemetery.</p>
-        <button type="submit">Play</button>
       </div>
     </section>
-      <button type="button" class="thin" onclick="return auth()">Token</button>
-    <section id="comments">
+      <div style="text-align: center">
+        <button type="button" style="background: #275a90;color: #fff;" onclick="return auth()">Token Local Storage</button>
+        <button type="button" style="background: #275a90;color: #fff;" onclick="location.href='session/jwt/cookie';">Token Cookie</button>
+      </div>
+    <section id="comments", style="margin-top:10px">
       <form method="post" action="reviews">
         <fieldset>
           <textarea name="newReview" cols="80" rows="5" placeholder="Add your review"></textarea>
-            <div>You need a <a href="session/jwt/cookie">valid session</a> to submit a review.</div>
+            <div>You need a token to submit a review.</div>
         </fieldset>
         <fieldset>
           <button type="submit">Submit</button>  
