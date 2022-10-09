@@ -37,7 +37,10 @@
       }
     </style>
     <script src="js/search.js"></script>
-    <script src="js/auth.js"></script>
+    <script src="js/auth_local.js"></script>
+    <script src="js/auth_session.js"></script>
+    <script src="js/submit_review.js"></script>
+
   </head>
   <body>
     <section>
@@ -72,24 +75,25 @@
       </div>
     </section>
       <div style="text-align: center">
-        <button type="button" style="background: #275a90;color: #fff;" onclick="return auth()">Token Local Storage</button>
+        <button type="button" style="background: #275a90;color: #fff;" onclick="return auth_local()">Token Local Storage</button>
+        <button type="button" style="background: #275a90;color: #fff;" onclick="return auth_session()">Token Session Storage</button>
         <button type="button" style="background: #275a90;color: #fff;" onclick="location.href='session/jwt/cookie';">Token Cookie</button>
       </div>
     <section id="comments", style="margin-top:10px">
       <form method="post" action="reviews">
         <fieldset>
-          <textarea name="newReview" cols="80" rows="5" placeholder="Add your review"></textarea>
+          <textarea id='123'name="newReview" cols="80" rows="5" placeholder="Add your review"></textarea>
             <div>You need a token to submit a review.</div>
         </fieldset>
         <fieldset>
-          <button type="submit">Submit</button>  
+          <button type="button" style="background: #275a90;color: #fff;" onclick="submit_review()">Submit</button>
         </fieldset>
       </form>
       <hr>
       <h2>Comments</h2>
       <dl>
         <% reviews.forEach(review => {%>
-          <dt><%= username %></dt><dd><%-review %></dd>
+          <dt><%= review.username %></dt><dd><%-review.review %></dd>
         <% }); %>
       </dl>
     </section>
